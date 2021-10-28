@@ -1,0 +1,164 @@
+Aim: The aim of this project is to create a personal assistant chatbot using Keras and TkinterGUI
+
+we will try to understand the basic what is chatbot.
+
+what is a Chatbot ?
+Answer:
+A chatbot is a computer program that simulates and processes human conversation (either written or spoken), allowing humans to interact with digital devices as if they were communicating with a real person.
+
+How do chatbots work?
+Answer:
+Driven by AI, automated rules, natural-language processing (NLP), and machine learning (ML), chatbots process data to deliver responses to requests of all kinds.
+
+There are two main types of chatbots.
+
+1)Task-oriented (declarative) chatbots are single-purpose programs that focus on performing one function. Using rules, NLP, and very little ML, they generate automated but conversational responses to user inquiries. Interactions with these chatbots are highly specific and structured and are most applicable to support and service functions—think robust, interactive FAQs. Task-oriented chatbots can handle common questions, such as queries about hours of business or simple transactions that don’t involve a variety of variables. Though they do use NLP so end users can experience them in a conversational way, their capabilities are fairly basic. These are currently the most commonly used chatbots.
+
+2)Data-driven and predictive (conversational) chatbots are often referred to as virtual assistants or digital assistants, and they are much more sophisticated, interactive, and personalized than task-oriented chatbots. These chatbots are contextually aware and leverage natural-language understanding (NLU), NLP, and ML to learn as they go. They apply predictive intelligence and analytics to enable personalization based on user profiles and past user behavior. Digital assistants can learn a user’s preferences over time, provide recommendations, and even anticipate needs. In addition to monitoring data and intent, they can initiate conversations. Apple’s Siri and Amazon’s Alexa are examples of consumer-oriented, data-driven, predictive chatbots.
+
+Why we need Chatbots?
+Answer:
+Cost and Time Effective ~ Humans cannot be active on-site 24/7 but chatbots can and the replying power of chatbots is much fast than humans.
+
+Cheap Development cost ~ with the advancement in technology many tools are developed that help easy development and integration of chatbots with little investment.
+
+Human Resource ~ Today Chatbots can also talk with text o speech technology so it gives the feel as a human is talking on another side.
+
+Business Branding ~ Businesses are changing with technology and chatbot is one out of them. Chatbot also helps in advertising, branding of organization product and services and give daily updates to users.
+
+Types of Chatbots
+Answer:
+There are mainly 2 types of chatbots.
+
+1) Rule-based Chatbots – As the Name suggests, there are certain rules on which chatbot operates. Like a Machine learning model, we train the chatbots on user intents and relevant responses, and based on these intents chatbot identifies the new user’s intent and response to him.
+
+2) Self-learning chatbots – Self-learning bots are highly efficient because they are capable to grab and identify the user’s intent on their own. they are build using advanced tools and techniques of Machine Learning, Deep Learning, and NLP. Self-learning bots are further divided into 2 subcategories.
+
+Retrieval-based chatbots:- Retrieval-based it is somewhat the same as Rule-based where predefined input patterns and responses are embedded. Generative-Based chatbots:- It is based on the same phenomenon as Machine Translation build using sequence 2 sequences neural network. Most of the organization uses self-learning chatbot along with embedding some rules like Hybrid version of both methods which makes chatbot powerful to handle each situation during a conversation with a customer.
+
+building one simple rule-based chatbot using python for ourselves.
+We will design a simple GUI using the Python Tkinter module using which we will create a text box and button to submit user intent and on the action, we will build a function where we will match the user intent and respond to him on his intent. If you do not have the Tkinter module install, then first install it using the pip command.
+
+pip install tkinter
+
+Project: Personal Assistant Chatbot
+For this project, we create 3 important files 1)intents.json 2)train_chatbot.py 3)chatgui.py
+
+1)intents.json: this file has data -Intents are greeting,goodbye,thanks,no answer,option,python is best,joke and can have 'n' number of tags, we can add/include our own training data and the corresponding response that a chatbot should give. -for example, anywords/similar words like "Hi there"- the response willbe like "Hello,thanks for asking"
+
+================================================================================================================================== 2)train_chatbot.py -the sentences like "Hi there"...in patterns are training data and its corresponding label(i.e,) is tag(greeting) -the sentences like "Bye" in patterns are training data and its corresponding label(i.e,) is tag(goodbye) ...... ... .. these all we train in our file train_chatbot.py
+
+in order to train those, we use -nltk(natural language tool kit) for data preprocessing -keras and tensorflow for developing our model -random : to pickup random responses that we have given
+
+so,given the training data, it will predict what the tag is and based on the tag name it will pick up one response of the particular.
+
+
+#importing basic needful libraries for the project
+#here
+#first, we create 3 lists words,classes,documents
+#secondly, we are going ignore symbols like ?(question mark),!(explamatory mark)
+#thirdly, we are going to open our data file, which is intents.json and we are saving it in a variable like intents and we 
+#going look through each and every intents(we created in intents.json file)
+
+#inside intents, we are going to look through over every pattern.
+# so pattern is nothing but, which contains the data(training sentences)
+
+# and for every pattern, we are going to word_tokenize-simply sepearting the words
+# here we hve words list, which is extend automatically gets in empty list words
+
+# and inside the documents, we're going to append the tuple- append the words, along with the corresponding intent tag(goodbye, greeting..)
+
+# next, we are going to append inside the classes(inside the classes list, we append various tags goodbye, thanks)
+# we are avoiding duplicates, so making sure the appended tag isnot already present inside the classes list
+
+# Now we lemmatize the word,
+#lemmatize= which has specific root word -ex:ruuning,runner,run--corresponds to root word run
+# after lemmatization, we are sorting the words
+#we are printing the documents, classes..
+
+
+# now we are saving allthese to 'pickle' file, so that we dont want to do again and again  
+pickle.dump(words,open('words.pkl','wb'))
+pickle.dump(classes,open('classes.pkl','wb'))
+
+ # Data pre-processing part
+# we are converting formed sentences/words into vectors,so that those vectors can be understood by our ML/DL MODEL
+# Converting training sentences/words in to training matrices/vectors
+
+# for this we create empty training and output_empty list
+# and shall initiliaze BagofWords-(Bow)
+#BOW- in a nutshell, creating all those training sentences into matrices, based on number of repeting words in that sentence
+#ex:"nice chatting to you"- wherever nice rows and columns intersects it will give 0's and 1's
+#ex: how are you sentences will  have corresponding sentences, if same then it is 1 else other will be 0
+
+#     how are you
+# how  1  0   0     =>similar words 1, dissimilar words 0
+# are  0  1   0
+# you  0  0   1
+
+# the above is naive approach on what bag of words is
+
+
+# after converting all the training data in to bag of words,
+# then we will shuffle our training data and also create our coresponding train_x and train_y
+# where train_x => is the sentences
+# where train_y => corresponding labels for what the sentences are about
+
+# ex: train_x: hi/hello/how are you
+#      train_y : it is a greeting sentence
+
+# shuffle our features and turn into np.array
+
+# applying Artificial neural networks model
+
+# here we use Sequential model
+# Sequential comes from Keras
+# Create model - 3 layers. First layer 128 neurons, second layer 64 neurons and 3rd output layer contains number of neurons
+# equal to number of intents to predict output intent with softmax
+
+# in this case 7 tags, which is 7 neurons
+# if intents.json is lenghthier/shorter than this correspondingly take the no. of labels in that case
+#activation=softmax,bcoz it is a prob base activation func
+
+# Compile model. Stochastic gradient descent with Nesterov accelerated gradient gives good results for this model
+sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
+
+#fitting and saving the model 
+hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
+model.save('chatbot_model.h5', hist)
+
+
+3) chatgui.py
+
+# steps:
+# 1) importing the libraries
+# 2) loading the datasets
+# 3)loading the model that we saved in the train_chatbot.py, which we are going to predict the 
+# actual tag and then we are going to pick a response from the intents.json file
+
+# after loading/importing the data, we are cleaning up sentences(tokenize,lemmatize)
+# later, convert all those words into bag of words(bow)
+# later, we can predict the tag, either it belong to greeting/option/...... by using our model
+# later, we pick a randaom response from intents.json
+# chatbot=>gives back the response
+# later, we are using tkinter for our GUI, so whatever the msg given here, it goes 
+# back to the function(chatbot_response) and returns back the result(which is the response)
+
+once executed, though jupyter directly,
+                   - Anaconda prompt, pycharm,or any other platform,
+                   
+                   
+ we can see the final result with a GUI  chatbot
+ ===================================================================================================
+ we can examine the chatbot with some samples like:
+ you:hi there 
+ bot: hello, thanks for asking
+ 
+ you: what can you do!
+ bot: I am a personal assistant to Mr.Azam.......
+ 
+ the above are simple samples, we can increase the tags depends upon the requirement.
+ 
+ 
+ ===========================================THANK YOU==============================================================================================================
