@@ -1,1 +1,1 @@
-web: guincorn app:chatgui
+web: guincorn api:chatgui
